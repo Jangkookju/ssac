@@ -1,0 +1,40 @@
+0. python and pip (3.x 설치)
+    $ sudo apt install python3.8
+    $ sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1
+    $ sudo apt install python3-pip
+
+1. install jupyter notebook
+    $ pip install --upgrade --ignore-installed pip setuptools
+    $ pip install notebook
+    $ python
+    >> from notebook.auth import passwd
+    >> passwd()
+    argon2:$argon2id$v=19$m=10240,t=10,p=8$kJL6FZhETjFziG4R5q5Bow$ix34engJa4mvbjCtDbvCbwWBc7yzxW6rSU9QCh9+7Oo
+
+    $ jupyter notebook --generate-config
+    $ sudo vi /home/ubuntu/.jupyter/jupyter_notebook_config.py
+    마지막)
+    c = get_config()
+    c.NotebookApp.password=u'argon2:$argon2id$v=19$m=10240,t=10,p=8$kJL6FZhETjFziG4R5q5Bow$ix34engJa4mvbjCtDbvCbwWBc7yzxW6rSU9QCh9+7Oo'
+    c.NotebookApp.ip="172.31.55.99" (ec2 private ip)
+    c.NotebookApp.notebook_dir='/'
+    & jupyter notebook --allow-root
+    ** EC2의 보안그룹 설정
+        - 생성한 EC2 인스턴스의 보안그룹을 선택하고 인바운드규칙에 8888포트를 추가 
+2. install konlpy
+    $ sudo apt-get install g++ openjdk-8-jdk
+    $ pip install konlpy
+    $ python 
+        >>> from konlpy.tag import Okt
+        >>> okt = Okt()
+        >>> print("OKT 형태소 분석:", okt.morphs("캐나다는 어떻게 ‘AI 성지’가 됐나"))
+        OKT 형태소 분석: ['캐나다', '는', '어떻게', '‘', 'AI', '성지', '’', '가', '됐나']
+        
+3. install mecab
+    $ bash <(curl -s https://raw.githubusercontent.com/konlpy/konlpy/master/scripts/mecab.sh)
+
+4. install tensorflow (p2 인스턴스 필요)
+    $ pip install tensorflow requests
+    $ python (설치확인 방법)
+    >>> import tensorflow as tf
+    >>> print(tf.__version__)
